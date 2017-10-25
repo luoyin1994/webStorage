@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>get localStorage</title>
+</head>
+<body id="body">
+<div id="name"></div>
+<div id="age"></div>
+<script src="../utils/toQueryString.js"></script>
+<script src="../class/ajax.js"></script>
+<script src="../class/simpleVue.js"></script>
+<script src="../utils/log.js"></script>
+<script src="../utils/store.js"></script>
+<script id="mainScript">
+    let dom = (() => {
+        return {
+            body      : document.getElementById('body'),
+            mainScript: document.getElementById('mainScript'),
+            script    : document.createElement('script'),
+        };
+
+    })();
+
+    let user = new Vue({
+        data   : {
+            name: '',
+            age : '',
+        },
+        methods: {
+            set () {
+                console.log(this.name);
+            },
+            setName() {
+
+            },
+        },
+    });
+
+    if (window.localStorage) {
+        let data = store.getItem('user');
+        if (data) {
+            user.name = data.name;
+            user.age  = data.age;
+        } else {
+            ajax.get('../mock/userDetail.json').then(data => {
+                user.name = data.name;
+                user.age  = data.age;
+                store.setItem('user', data);
+            });
+        }
+
+    }
+</script>
+</body>
+</html>

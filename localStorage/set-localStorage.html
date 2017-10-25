@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>set localStorage</title>
+</head>
+<body>
+<script>
+   if(window.localStorage){
+       localStorage.setItem('name', 'hello');
+       localStorage.setItem('age', '16');
+       // 浏览器关闭依然存在，删除后才会失效
+//       localStorage.removeItem('name');
+   }
+</script>
+</body>
+</html>

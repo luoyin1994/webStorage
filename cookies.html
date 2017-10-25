@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cookies</title>
+</head>
+<body>
+<script>
+    // 只要浏览器打开，新开页面或者关闭当前页面有些cookies有效，有些没有效
+    // 浏览器关闭失效
+    document.cookie = 'userName=hello';
+    document.cookie = 'age=16';
+    console.log(document.cookie);
+</script>
+</body>
+</html>

@@ -22,7 +22,7 @@ class XHR {
             if (xhr != null) {
                 xhr.onreadystatechange = stateChangeCallback;
 
-                xhr.open(this.method, this.url);
+                xhr.openDB(this.method, this.url);
                 xhr.send(this.body == null ? null : this.body);
 
             } else {

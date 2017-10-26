@@ -32,7 +32,7 @@ let XHR = function(obj) {
             if (xhr != null) {
                 xhr.onreadystatechange = stateChangeCallback;
 
-                xhr.open(obj.method, obj.url);
+                xhr.openDB(obj.method, obj.url);
                 xhr.send(obj.body == null ? null : obj.body);
 
             } else {

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>indexDB</title>
+    <script src="../../js/utils/log.js"></script>
+    <script src="../../js/class/IndexDB.js"></script>
+    <script src="../../js/class/ajax.js"></script>
+    <script src="../../js/utils/error.js"></script>
+</head>
+<body>
+<script>
+    const studentsStore = 'student';
+
+    let myDB = new IndexDB({
+        name   : 'textDB',
+        version: 5,
+    });
+
+    let request = myDB.openDB();
+
+    request.onsuccess = (e) => {
+        myDB.db = e.target.result;
+        if (myDB.hasObjectStore(studentsStore)) {
+            ajax.get('../../mock/students.json').then(data => {
+                let students = data;
+                for (let i = 0; i < students.length; i++) {
+                    myDB.addObjectStoreItem(students[i], studentsStore);
+                }
+
+                myDB.getObjectStoreItemByKey(1001, studentsStore).then(data => {
+//                    log(data);
+                }).catch(err => error(err));
+
+                myDB.updateObjectStoreItemByKey(1001, studentsStore, {
+                    age : 55,
+                    name: 'lisi',
+                }).then(data => {
+//                    log(data);
+                });
+
+                myDB.deleteObjectStoreItemByKey(1003, studentsStore).then(flag => {
+//                    console.log(flag);
+                });
+
+                myDB.clearObjectStore(studentsStore).then(flag => {
+                    log(flag);
+                });
+
+            });
+        }
+    };
+
+    request.onupgradeneeded = (e) => {
+        myDB.db = e.target.result;
+        myDB.createObjectStore(studentsStore, {keyPath: 'id'});
+        log(myDB.deleteObjectStore(studentsStore));
+        log(`DB version changed to (${myDB.version}).`);
+    };
+</script>
+</body>
+</html>

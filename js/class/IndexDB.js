@@ -13,7 +13,7 @@ class IndexDB {
     openDB() {
         let request = window.indexedDB.open(this.name, this.version);
 
-        request.onerror = (e) => {
+        request.onerror = e => {
             error(`Error: ${e.target.error.message}.`);
         };
 

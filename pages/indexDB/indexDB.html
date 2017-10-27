@@ -14,7 +14,7 @@
 
     let myDB = new IndexDB({
         name   : 'textDB',
-        version: 5,
+        version: 6,
     });
 
     let request = myDB.openDB();
@@ -27,34 +27,36 @@
                 for (let i = 0; i < students.length; i++) {
                     myDB.addObjectStoreItem(students[i], studentsStore);
                 }
+                log(1)
 
-                myDB.getObjectStoreItemByKey(1001, studentsStore).then(data => {
-//                    log(data);
-                }).catch(err => error(err));
-
-                myDB.updateObjectStoreItemByKey(1001, studentsStore, {
-                    age : 55,
-                    name: 'lisi',
-                }).then(data => {
-//                    log(data);
-                });
-
-                myDB.deleteObjectStoreItemByKey(1003, studentsStore).then(flag => {
-//                    console.log(flag);
-                });
-
-                myDB.clearObjectStore(studentsStore).then(flag => {
-                    log(flag);
-                });
+//                myDB.getObjectStoreItemByKey(1001, studentsStore).then(data => {
+////                    log(data);
+//                }).catch(err => error(err));
+//
+//                myDB.updateObjectStoreItemByKey(1001, studentsStore, {
+//                    age : 55,
+//                    name: 'lisi',
+//                }).then(data => {
+////                    log(data);
+//                });
+//
+//                myDB.deleteObjectStoreItemByKey(1003, studentsStore).then(flag => {
+////                    console.log(flag);
+//                });
+//
+//                myDB.clearObjectStore(studentsStore).then(flag => {
+//                    log(flag);
+//                });
 
             });
         }
     };
 
     request.onupgradeneeded = (e) => {
-        myDB.db = e.target.result;
-        myDB.createObjectStore(studentsStore, {keyPath: 'id'});
-        log(myDB.deleteObjectStore(studentsStore));
+        myDB.db   = e.target.result;
+        let store = myDB.createObjectStore(studentsStore, {keyPath: 'id'});
+        store.createIndex('nameIndex', 'name', {unique: true});
+        store.createIndex('ageIndex', 'age', {unique: false});
         log(`DB version changed to (${myDB.version}).`);
     };
 </script>
